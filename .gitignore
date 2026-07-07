@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+data/
+*.npy
+*.mat
+*.nii.gz
+*.npz
+.venv/

@@ -1,0 +1,10 @@
+numpy
+scipy
+gudhi
+# optional: real quantum backend. Without it, the engine falls back to
+# local simulated annealing automatically (no key, no account needed).
+# dwave-system
+# demo-only:
+nibabel      # MRI demo
+gwpy         # LIGO demo (fetches public O1 data)
+matplotlib   # figures
