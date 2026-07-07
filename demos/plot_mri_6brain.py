@@ -1,5 +1,6 @@
 import matplotlib; matplotlib.use("Agg")
-import matplotlib.pyplot as plt, numpy as np
+import os, matplotlib.pyplot as plt, numpy as np
+OUT=os.environ.get("VOODOO_OUT",".")
 accel=np.array([1.0,2.0,2.9,4.0,6.0,8.0])
 mean=np.array([112.2,93.5,70.7,55.6,34.0,23.3])
 std =np.array([14.1,11.7,6.5,4.3,2.8,2.2])
@@ -11,5 +12,5 @@ ax.set_xlabel("Acceleration factor (k-space undersampling)")
 ax.set_ylabel("Betti-1 loop count (topological complexity)")
 ax.set_title("Training-free, reference-free MRI quality index\nMonotonic Betti-1 degradation replicated across 6 brains (ds000102)")
 ax.grid(alpha=0.3); ax.legend()
-fig.tight_layout(); fig.savefig("/home/Voodooaoi/flagship_demo/mri_hero_6brain.png",dpi=140)
+fig.tight_layout(); fig.savefig(os.path.join(OUT,"mri_hero_6brain.png"),dpi=140)
 print("saved mri_hero_6brain.png")

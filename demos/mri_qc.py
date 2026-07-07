@@ -1,7 +1,9 @@
-import nibabel as nib, numpy as np, gudhi, glob
+import os, glob, numpy as np, nibabel as nib, gudhi
 
-files = ['/home/Voodooaoi/fastmri/sub-01/anat/sub-01_T1w.nii.gz'] + \
-        sorted(glob.glob('/home/Voodooaoi/fastmri/ds000102/sub-*/anat/*T1w.nii.gz'))
+DATA = os.environ.get("VOODOO_DATA", "data")
+files = sorted(glob.glob(os.path.join(DATA, "mri", "sub-*_T1w.nii.gz")))
+if not files:
+    raise SystemExit(f"No MRI data under {DATA}/mri/. Run:  bash fetch_data.sh")
 
 def undersample(sl, keep):
     if keep >= 1.0: return sl
@@ -20,7 +22,7 @@ def betti1(sl):
     if len(p)==0: return 0
     return int(np.sum((p[:,1]-p[:,0])>0.1))
 
-keeps=[1.0,0.5,0.25,0.167,0.125]
+keeps=[1.0,0.5,0.345,0.25,0.167,0.125]
 table={k:[] for k in keeps}
 for f in files:
     d=nib.load(f).get_fdata()

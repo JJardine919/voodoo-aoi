@@ -1,5 +1,7 @@
 import matplotlib; matplotlib.use("Agg")
-import matplotlib.pyplot as plt, numpy as np, glob, gudhi, scipy.io as sio
+import os, matplotlib.pyplot as plt, numpy as np, glob, gudhi, scipy.io as sio
+DATA=os.environ.get("VOODOO_DATA","data")
+OUT=os.environ.get("VOODOO_OUT",".")
 
 # ---------- shared topo (delay-embedding persistence) ----------
 def topo_ts(v, npts, tau, mel):
@@ -25,7 +27,7 @@ ax.set_xlabel("acceleration x"); ax.set_ylabel("Betti-1 loop count"); ax.grid(al
 ax.text(0.5,0.92,"monotonic, training-free, reference-free",transform=ax.transAxes,ha="center",fontsize=8,style="italic")
 
 # ---------- Panel 2: LIGO glitches ----------
-CACHE="/home/Voodooaoi/ligo/cache"; CLS=["Blip","Koi_Fish","Scattered_Light"]
+CACHE=os.path.join(DATA,"ligo","cache"); CLS=["Blip","Koi_Fish","Scattered_Light"]
 S={c:[topo_ts(np.load(fn),300,3,2.0) for fn in sorted(glob.glob(f"{CACHE}/{c}_*.npy"))] for c in CLS}
 def auc(x,y):
     x=np.array(x);y=np.array(y);m=(x[:,None]>y[None,:]).astype(float);m[x[:,None]==y[None,:]]=.5;return m.mean()
@@ -40,7 +42,7 @@ ax.text(0.5,0.92,f"Blip vs Koi Fish: topo AUC {auc(S['Blip'],S['Koi_Fish']):.2f}
 
 # ---------- Panel 3: Battery ----------
 def bload(cell):
-    m=sio.loadmat(f"/home/Voodooaoi/battery/{cell}.mat")[cell][0,0]["cycle"][0]; V=[];C=[]
+    m=sio.loadmat(os.path.join(DATA,"battery",f"{cell}.mat"))[cell][0,0]["cycle"][0]; V=[];C=[]
     for c in m:
         if c["type"][0]=="discharge":
             d=c["data"][0,0]; v=np.array(d["Voltage_measured"][0],float); cap=float(d["Capacity"][0,0])
@@ -55,5 +57,5 @@ ax.text(0.5,0.92,f"descriptive r = {r:.2f}   (predictive: null, honest)",transfo
 
 fig.suptitle("One training-free topological method  ·  three unrelated domains  ·  honest limits shown",fontsize=13,fontweight="bold")
 fig.tight_layout(rect=[0,0,1,0.95])
-fig.savefig("/home/Voodooaoi/flagship_demo/money_shot.png",dpi=140)
+fig.savefig(os.path.join(OUT,"money_shot.png"),dpi=140)
 print("saved money_shot.png")

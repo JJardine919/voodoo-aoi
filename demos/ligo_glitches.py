@@ -1,9 +1,14 @@
 import csv, os, numpy as np, gudhi, itertools
 from gwpy.timeseries import TimeSeries
+DATA=os.environ.get("VOODOO_DATA","data")
+LIGO=os.path.join(DATA,"ligo"); CACHE=os.path.join(LIGO,"cache")
 CLASSES=['Blip','Koi_Fish','Scattered_Light']; NPER=15
-os.makedirs('/home/Voodooaoi/ligo/cache',exist_ok=True)
+os.makedirs(CACHE,exist_ok=True)
+CSV=os.path.join(LIGO,"H1_O1.csv")
+if not os.path.exists(CSV):
+    raise SystemExit(f"Missing {CSV}. Run:  bash fetch_data.sh")
 rows={c:[] for c in CLASSES}
-with open('/home/Voodooaoi/ligo/H1_O1.csv') as f:
+with open(CSV) as f:
     for row in csv.DictReader(f):
         lab=row['ml_label']
         if lab in CLASSES and float(row['ml_confidence'])>0.9:
@@ -12,7 +17,7 @@ with open('/home/Voodooaoi/ligo/H1_O1.csv') as f:
             if 8<snr<50: rows[lab].append(float(row['event_time']))
 for c in CLASSES: rows[c]=sorted(rows[c])[:NPER]
 def getwin(t,lab):
-    fn=f'/home/Voodooaoi/ligo/cache/{lab}_{t:.3f}.npy'
+    fn=os.path.join(CACHE,f'{lab}_{t:.3f}.npy')
     if os.path.exists(fn): return np.load(fn)
     d=TimeSeries.fetch_open_data('H1',t-16,t+16,verbose=False).whiten().bandpass(20,500)
     w=d.crop(t-0.5,t+0.5).value; np.save(fn,w); return w

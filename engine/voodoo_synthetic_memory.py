@@ -27,7 +27,7 @@ import numpy as np
 from typing import Optional
 
 os.environ.setdefault('DWAVE_SA_READS', '10')
-sys.path.insert(0, '/home/Voodooaoi')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from aoi_collapse_96d_dwave import aoi_collapse_96d_dwave
 
@@ -441,7 +441,7 @@ SEED_MEMORIES = [
 
 def _semantic_encode_96d(text):
     import sys, os
-    sys.path.insert(0, '/home/Voodooaoi')
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from voodoo_web_96d import encode_message_96d
     return encode_message_96d(text, 0, None)
 

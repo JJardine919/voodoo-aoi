@@ -1,7 +1,12 @@
-import scipy.io as sio, numpy as np, gudhi
+import os, scipy.io as sio, numpy as np, gudhi
+
+DATA=os.environ.get("VOODOO_DATA","data")
 
 def load(cell):
-    m=sio.loadmat(f'/home/Voodooaoi/battery/{cell}.mat')[cell][0,0]['cycle'][0]
+    fn=os.path.join(DATA,"battery",f"{cell}.mat")
+    if not os.path.exists(fn):
+        raise SystemExit(f"Missing {fn}. Run:  bash fetch_data.sh")
+    m=sio.loadmat(fn)[cell][0,0]['cycle'][0]
     V=[];C=[]
     for c in m:
         if c['type'][0]=='discharge':

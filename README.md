@@ -65,8 +65,10 @@ print(out["betti"], out["intent"], out["chaos"], out["backend"])
 
 ```bash
 pip install -r requirements.txt
-bash fetch_data.sh   # pointers to the public datasets
+bash fetch_data.sh   # downloads the public datasets into ./data/ (MRI, LIGO, battery)
 ```
+
+Then run any demo from the repo root, e.g. `python demos/mri_qc.py`.
 
 ## License
 
