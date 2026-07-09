@@ -1,25 +1,31 @@
-# Voodoo AOI — a training-free, token-free collapse engine
+# Voodoo AOI
 
-A topological "collapse" engine that reads structure in signals with **no training,
-no tokens, and no neural network.** It runs offline on a laptop — if you don't have a
-quantum sampler it falls back to local simulated annealing automatically, no account
-or key required. Clone it, run it, get the numbers below.
+**One piece of topology, applied cold to three unrelated signals — brain scans, gravitational-wave detector glitches, and battery aging — with no training, no tokens, and no neural network.** Clone it, run it, get the exact numbers below on your own machine.
 
-> Built over five months by one person and an AI, and given to the world under
-> copyleft. Institutions optimize for what they can measure; a lot of value falls
-> through the cracks they can't see. This is a small tool for leveling that field.
+![one training-free method, three unrelated domains, honest limits shown](money_shot.png)
+
+> I'm a pipefitter. I built this over five months with an AI as my partner, and I'm
+> releasing it under copyleft. It measures the *shape* of a signal (its topology) instead
+> of learning from examples — so there's nothing to train, no API key, no model to
+> download. It runs on a laptop. Where it doesn't work, I show you that too.
 
 ---
 
-## Reproducible results — run them yourself
+## Run it yourself
 
-These demos are **training-free topological analyses** (persistent homology). No model
-is fit to any data. The same mathematical tool is applied across three unrelated
-domains. **We show you where it fails, too — that's the point.**
+```bash
+pip install -r requirements.txt
+bash fetch_data.sh          # public datasets → ./data/  (MRI, LIGO, battery)
+python demos/mri_qc.py      # reproduces the MRI table below
+```
 
-### 1. Reference-free MRI quality (6 brains)
+Every result here is a **training-free topological analysis** (persistent homology). No
+model is fit to any data. The *same* mathematical tool is pointed at three unrelated
+domains. **I show you where it fails, too — that's the point.**
+
+### 1. Reference-free MRI quality (6 brains) — a clean positive
 As MRI k-space is undersampled, image loop-topology (Betti-1) degrades monotonically —
-no reference image, no training. Replicated across 6 brains (OpenNeuro ds000102):
+**no reference image, no training.** Replicated across 6 brains (OpenNeuro ds000102):
 
 | acceleration | 1× | 2× | 2.9× | 4× | 6× | 8× |
 |---|---|---|---|---|---|---|
@@ -28,8 +34,9 @@ no reference image, no training. Replicated across 6 brains (OpenNeuro ds000102)
 `python demos/mri_qc.py`
 
 ### 2. LIGO glitch discrimination (Gravity Spy, O1) — a narrow positive
-On the two most look-alike glitch classes, Blip vs Koi Fish, where peak amplitude
-barely separates them (AUC 0.24), topology does (**AUC 0.84**).
+These are **detector glitches, not gravitational waves.** On the two most look-alike
+glitch classes — Blip vs Koi Fish — where peak amplitude barely separates them
+(AUC 0.24), topology does (**AUC 0.84**).
 **Honest limit:** on the easy, already-separable pairs a trivial spectral-bandwidth
 feature beats topology. This is a *narrow* result, not a universal one.
 
@@ -42,15 +49,14 @@ current capacity + recent trend (partial r ≈ 0.04). Descriptive positive, pred
 
 `python demos/battery_predict.py`
 
-![three domains, one method](money_shot.png)
-
 ---
 
 ## The engine
 
 `engine/` is the full 96D octonion-collapse organism: entropy gating, Fano/octonion
 projection, Jordan-Shadow decomposition, 33 transposable-element families,
-Monster-moonshine grading, and chain-complex homology. Token-free, no LLM, runs offline.
+Monster-moonshine grading, and chain-complex homology. Token-free, no LLM, runs offline —
+falls back to local simulated annealing automatically if you don't have a quantum sampler.
 
 ```python
 import numpy as np
@@ -60,15 +66,6 @@ out = aoi_collapse_96d_dwave(np.random.normal(size=96))
 print(out["betti"], out["intent"], out["chaos"], out["backend"])
 # -> [..] 0.xx 0.xx SimulatedAnnealing
 ```
-
-## Install
-
-```bash
-pip install -r requirements.txt
-bash fetch_data.sh   # downloads the public datasets into ./data/ (MRI, LIGO, battery)
-```
-
-Then run any demo from the repo root, e.g. `python demos/mri_qc.py`.
 
 ## License
 
