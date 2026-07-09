@@ -6,3 +6,6 @@ data/
 *.nii.gz
 *.npz
 .venv/
+
+# local launch notes, not for publication
+LAUNCH_SHOW_HN.md
