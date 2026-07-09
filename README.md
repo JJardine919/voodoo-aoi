@@ -2,6 +2,10 @@
 
 **One piece of topology, applied cold to three unrelated signals — brain scans, gravitational-wave detector glitches, and battery aging — with no training, no tokens, and no neural network.** Clone it, run it, get the exact numbers below on your own machine.
 
+![running demos/mri_qc.py: Betti-1 falls monotonically as the scan degrades](demo.gif)
+
+*One command, 28 seconds, six real brains from OpenNeuro. Nothing was trained.*
+
 ![one training-free method, three unrelated domains, honest limits shown](money_shot.png)
 
 > I'm a pipefitter. I built this over five months with an AI as my partner, and I'm
